@@ -6,7 +6,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::process;
 use tower_http::trace::TraceLayer;
-use tracing_subscriber::{fmt::format::FmtSpan, EnvFilter};
+use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() {
@@ -19,22 +19,16 @@ async fn main() {
             EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("debug")),
         )
         // 记录所有请求和响应信息
-        .with_span_events(FmtSpan::FULL)
+        .with_span_events(tracing_subscriber::fmt::format::FmtSpan::NONE) // 不打印 new/enter/exit/close
         .init();
 
-    let app = Router::new()
-        .route("/", get(root))
-        .route("/users", post(create_user))
-        // 添加更详细的 trace 配置
-        .layer(
-            TraceLayer::new_for_http()
-                .make_span_with(
-                    tower_http::trace::DefaultMakeSpan::new().level(tracing::Level::INFO),
-                )
-                .on_response(
-                    tower_http::trace::DefaultOnResponse::new().level(tracing::Level::INFO),
-                ),
-        );
+    let app =
+        Router::new()
+            .route("/", get(root))
+            .route("/users", post(create_user))
+            .layer(TraceLayer::new_for_http().make_span_with(
+                tower_http::trace::DefaultMakeSpan::new().level(tracing::Level::INFO),
+            ));
 
     let listener = match tokio::net::TcpListener::bind("0.0.0.0:3000").await {
         Ok(listener) => listener,
