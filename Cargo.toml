@@ -4,11 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-axum = "0.7"         # Web 框架
+axum = "0.8.4"         # Web 框架
 tokio = { version = "1.36", features = ["full"] } # 异步运行时
 serde = { version = "1.0", features = ["derive"] } # JSON 序列化/反序列化
-serde_json = "1.0"
-tower = "0.4"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing = "0.1.41"
 tower-http = { version = "0.6.6", features = ["trace"] }        # 中间件、服务工具
