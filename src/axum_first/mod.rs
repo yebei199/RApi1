@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 use std::process;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::EnvFilter;
-
 pub async fn main() {
     // 初始化 tracing 日志订阅器，设置日志级别
     tracing_subscriber::fmt()

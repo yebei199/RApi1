@@ -1,2 +1,1 @@
 mod axum_first;
-fn main() {}
