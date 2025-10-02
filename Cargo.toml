@@ -1,12 +1,16 @@
-[package]
+[workspace]
+members = ["crates/*", ]
+default-members = ["crates/my_bin_1"]
+resolver = "2"
+
+[workspace.package]
 name = "crawl_api"
+rust-version = "1.89.0"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
-axum = "0.8.4"         # Web 框架
-tokio = { version = "1.36", features = ["full"] } # 异步运行时
-serde = { version = "1.0", features = ["derive"] } # JSON 序列化/反序列化
-tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
-tracing = "0.1.41"
-tower-http = { version = "0.6.6", features = ["trace"] }        # 中间件、服务工具
+[workspace.dependencies]
+my_lib_1 = { path = "crates/my_lib_1" }
+#my_bin_1 = { path = "crates/my_bin_1" }
+
+

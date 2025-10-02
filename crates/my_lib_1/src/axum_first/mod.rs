@@ -7,7 +7,13 @@ use serde::{Deserialize, Serialize};
 use std::process;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::EnvFilter;
-pub async fn main() {
+
+/// hh
+pub fn hh() {
+    println!("Hello, world!")
+}
+
+pub async fn run() {
     // 初始化 tracing 日志订阅器，设置日志级别
     tracing_subscriber::fmt()
         .with_target(false)
@@ -20,18 +26,27 @@ pub async fn main() {
         .with_span_events(tracing_subscriber::fmt::format::FmtSpan::NONE) // 不打印 new/enter/exit/close
         .init();
 
-    let app =
-        Router::new()
-            .route("/", get(root))
-            .route("/users", post(create_user))
-            .layer(TraceLayer::new_for_http().make_span_with(
-                tower_http::trace::DefaultMakeSpan::new().level(tracing::Level::INFO),
-            ));
+    let app = Router::new()
+        .route("/", get(root))
+        .route("/users", post(create_user))
+        .layer(
+            TraceLayer::new_for_http().make_span_with(
+                tower_http::trace::DefaultMakeSpan::new()
+                    .level(tracing::Level::INFO),
+            ),
+        );
 
-    let listener = match tokio::net::TcpListener::bind("0.0.0.0:3000").await {
+    let listener = match tokio::net::TcpListener::bind(
+        "0.0.0.0:3000",
+    )
+    .await
+    {
         Ok(listener) => listener,
         Err(e) => {
-            eprintln!("Failed to bind to address 0.0.0.0:3000: {}", e);
+            eprintln!(
+                "Failed to bind to address 0.0.0.0:3000: {}",
+                e
+            );
             process::exit(1);
         }
     };
