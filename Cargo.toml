@@ -4,13 +4,11 @@ default-members = ["crates/my_bin_1"]
 resolver = "2"
 
 [workspace.package]
-name = "crawl_api"
-rust-version = "1.89.0"
+rust-version = "1.9.0"
 version = "0.1.0"
 edition = "2024"
 
 [workspace.dependencies]
 my_lib_1 = { path = "crates/my_lib_1" }
-#my_bin_1 = { path = "crates/my_bin_1" }
 
 

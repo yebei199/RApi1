@@ -1,6 +1,5 @@
 # 指定 Rust 版本
 edition = "2024"
-style_edition = "2024"
 # 每行最大宽度
 max_width = 60
 # 缩进空格数

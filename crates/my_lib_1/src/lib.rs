@@ -1,4 +1,4 @@
-pub mod axum_first;
+pub mod ax;
 pub mod study_1;
 
 pub fn add(left: u64, right: u64) -> u64 {

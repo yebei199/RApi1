@@ -1,5 +1,5 @@
-use my_lib_1::{axum_first, study_1};
+use my_lib_1::{ax, study_1};
 fn main() {
-    axum_first::hh();
+    ax::ax1::hh();
     study_1::trait_1::main();
 }
