@@ -10,7 +10,7 @@ use tracing_subscriber::EnvFilter;
 
 /// hh
 pub fn hh() {
-    println!("there is hh function");
+    println!("there is hh function\n");
 }
 
 pub async fn run() {
