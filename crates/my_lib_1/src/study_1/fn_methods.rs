@@ -5,6 +5,10 @@ struct Point {
 
 // Implementation block, all `Point` associated functions & methods go in here
 impl Point {
+    fn meth1(&self) {
+        println!("meth1 called{}", self.x);
+    }
+
     // This is an "associated function" because this function is associated with
     // a particular type, that is, Point.
     //
@@ -30,6 +34,7 @@ impl Rectangle {
     // `&self` is sugar for `self: &Self`, where `Self` is the type of the
     // caller object. In this case `Self` = `Rectangle`
     fn area(&self) -> f64 {
+        self.p1.meth1();
         // `self` gives access to the struct fields via the dot operator
         let Point { x: x1, y: y1 } = self.p1;
         let Point { x: x2, y: y2 } = self.p2;
