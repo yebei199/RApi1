@@ -1,7 +1,7 @@
 use axum::{
-    Json, Router,
-    http::StatusCode,
-    routing::{get, post},
+    http::StatusCode, routing::{get, post},
+    Json,
+    Router,
 };
 use serde::{Deserialize, Serialize};
 use std::process;
@@ -95,4 +95,28 @@ struct CreateUser {
 struct User {
     id: u64,
     username: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_root() {
+        let response = root().await;
+        assert_eq!(response, "Hello, World!");
+    }
+
+    #[tokio::test]
+    async fn test_create_user() {
+        let payload = CreateUser {
+            id: 1,
+            username: "testuser".to_string(),
+        };
+        let (status, Json(user)) =
+            create_user(Json(payload)).await;
+        assert_eq!(status, StatusCode::CREATED);
+        assert_eq!(user.id, 1);
+        assert_eq!(user.username, "testuser");
+    }
 }

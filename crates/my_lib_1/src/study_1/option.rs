@@ -1,3 +1,5 @@
+//! this doc comment is for `option` module
+
 // 不会 `panic!` 的整数除法。
 fn checked_division(
     dividend: i32,
