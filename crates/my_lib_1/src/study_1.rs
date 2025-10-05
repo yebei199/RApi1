@@ -1,5 +1,7 @@
 pub mod fn_methods;
+pub mod option;
 pub mod print_1;
+pub mod test_study;
 pub mod trait_1;
 pub mod trait_2;
 
@@ -10,5 +12,10 @@ mod tests {
     #[test]
     fn it_works() {
         trait_2::main()
+    }
+
+    #[test]
+    fn it_works_2() {
+        option::main()
     }
 }
