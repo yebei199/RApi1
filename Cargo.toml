@@ -10,5 +10,4 @@ edition = "2024"
 
 [workspace.dependencies]
 my_lib_1 = { path = "crates/my_lib_1" }
-
-
+pingora_example = { path = "crates/pingora_example" }
