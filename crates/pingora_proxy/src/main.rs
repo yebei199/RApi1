@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!")
+    pingora_proxy::proxy_1::first::ProxyBuilder::new();
 }
