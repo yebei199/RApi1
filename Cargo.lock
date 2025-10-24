@@ -139,7 +139,7 @@ checksum = "f93ebbf82d06013f4c41fe71303feb980cddd78496d904d06be627972de51a24"
 
 [[package]]
 name = "audio_1"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "audio",
 ]
@@ -1617,7 +1617,7 @@ dependencies = [
 
 [[package]]
 name = "pingora_proxy"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "async-trait",
  "hyper 0.14.32",
