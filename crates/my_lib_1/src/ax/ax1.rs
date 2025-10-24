@@ -8,8 +8,12 @@ use std::process;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::EnvFilter;
 
-#[tokio::main]
-async fn main() {
+/// hh
+pub fn hh() {
+    println!("there is hh function\n");
+}
+
+pub async fn run() {
     // 初始化 tracing 日志订阅器，设置日志级别
     tracing_subscriber::fmt()
         .with_target(false)
@@ -22,18 +26,27 @@ async fn main() {
         .with_span_events(tracing_subscriber::fmt::format::FmtSpan::NONE) // 不打印 new/enter/exit/close
         .init();
 
-    let app =
-        Router::new()
-            .route("/", get(root))
-            .route("/users", post(create_user))
-            .layer(TraceLayer::new_for_http().make_span_with(
-                tower_http::trace::DefaultMakeSpan::new().level(tracing::Level::INFO),
-            ));
+    let app = Router::new()
+        .route("/", get(root))
+        .route("/users", post(create_user))
+        .layer(
+            TraceLayer::new_for_http().make_span_with(
+                tower_http::trace::DefaultMakeSpan::new()
+                    .level(tracing::Level::INFO),
+            ),
+        );
 
-    let listener = match tokio::net::TcpListener::bind("0.0.0.0:3000").await {
+    let listener = match tokio::net::TcpListener::bind(
+        "0.0.0.0:3000",
+    )
+    .await
+    {
         Ok(listener) => listener,
         Err(e) => {
-            eprintln!("Failed to bind to address 0.0.0.0:3000: {}", e);
+            eprintln!(
+                "Failed to bind to address 0.0.0.0:3000: {}",
+                e
+            );
             process::exit(1);
         }
     };
@@ -82,4 +95,28 @@ struct CreateUser {
 struct User {
     id: u64,
     username: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_root() {
+        let response = root().await;
+        assert_eq!(response, "Hello, World!");
+    }
+
+    #[tokio::test]
+    async fn test_create_user() {
+        let payload = CreateUser {
+            id: 1,
+            username: "testuser".to_string(),
+        };
+        let (status, Json(user)) =
+            create_user(Json(payload)).await;
+        assert_eq!(status, StatusCode::CREATED);
+        assert_eq!(user.id, 1);
+        assert_eq!(user.username, "testuser");
+    }
 }
