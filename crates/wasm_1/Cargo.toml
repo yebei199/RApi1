@@ -1,5 +1,5 @@
 [package]
-name = "wasm"
+name = "wasm_1"
 rust-version.workspace = true
 version.workspace = true
 edition.workspace = true
