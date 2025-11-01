@@ -1,19 +1,7 @@
-use bevy::prelude::*;
-#[derive(Component)]
-struct Position {
-    x: f32,
-    y: f32,
-}
-fn print_position_system(query: Query<&Position>) {
-    for position in &query {
-        println!("position: {} {}", position.x, position.y);
-    }
-}
-struct Entity(u64);
-fn hello_world() {
-    println!("hello world!");
-}
+mod mesh_picking;
+mod first;
+
 
 fn main() {
-    App::new().add_systems(Update, hello_world).run();
+    mesh_picking::main()
 }
