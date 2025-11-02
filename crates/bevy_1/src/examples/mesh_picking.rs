@@ -1,3 +1,4 @@
+//! I like this first example , I can drag it
 use std::f32::consts::PI;
 
 use bevy::{
@@ -28,7 +29,7 @@ fn setup_scene(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // Set up the materials.
-    let white_matl = materials.add(Color::BLACK);
+    let white_matl = materials.add(Color::from(GREEN_50));
     let ground_matl = materials.add(Color::from(GRAY_300));
     let hover_matl = materials.add(Color::from(CYAN_300));
     let pressed_matl =

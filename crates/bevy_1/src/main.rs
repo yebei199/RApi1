@@ -1,4 +1,8 @@
-mod mesh_picking;
+mod examples;
+#[allow(dead_code)]
+mod first;
+
 fn main() {
-    mesh_picking::main()
+    // examples::mesh_picking::main();
+    examples::volumetric_fog::main();
 }
