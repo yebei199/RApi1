@@ -4,6 +4,13 @@ rust-version.workspace = true
 version.workspace = true
 edition.workspace = true
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "bevy_1"
+path = "src/main.rs"
+
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
 opt-level = 1
@@ -13,4 +20,4 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = "0.17.2"
+bevy = { version = "0.17.2", features = ["x11", "wayland"] }

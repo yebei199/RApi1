@@ -12,3 +12,5 @@ edition = "2024"
 my_lib_1 = { path = "crates/my_lib_1" }
 pingora_proxy = { path = "crates/pingora_proxy" }
 audio_1 = { path = "crates/audio_1" }
+bevy_1 = { path = "crates/bevy_1" }
+
