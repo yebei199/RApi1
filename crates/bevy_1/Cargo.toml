@@ -4,8 +4,6 @@ rust-version.workspace = true
 version.workspace = true
 edition.workspace = true
 
-[lib]
-path = "src/lib.rs"
 
 [[bin]]
 name = "bevy_1"
