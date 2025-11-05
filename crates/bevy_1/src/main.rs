@@ -3,6 +3,9 @@ mod examples;
 #[allow(dead_code)]
 mod first;
 
+#[allow(dead_code)]
+mod utils;
+
 fn main() {
     // examples::mesh_picking::main();
     // examples::volumetric_fog::main();

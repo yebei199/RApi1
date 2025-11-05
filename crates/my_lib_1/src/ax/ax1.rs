@@ -1,7 +1,7 @@
 use axum::{
-    http::StatusCode, routing::{get, post},
-    Json,
-    Router,
+    Json, Router,
+    http::StatusCode,
+    routing::{get, post},
 };
 use serde::{Deserialize, Serialize};
 use std::process;

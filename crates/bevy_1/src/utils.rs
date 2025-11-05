@@ -1,3 +1,5 @@
+mod tow_d_draw;
+
 use std::env;
 // see some envs
 pub fn see_some_env(env_names: &[&str]) {
