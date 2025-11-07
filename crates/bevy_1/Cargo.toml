@@ -13,3 +13,4 @@ path = "src/main.rs"
 
 [dependencies]
 bevy = { version = "0.17.2", features = ["wayland"] }
+hello = "1.0.4"
