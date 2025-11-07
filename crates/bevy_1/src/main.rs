@@ -1,7 +1,7 @@
+use examples::first;
+
 #[allow(dead_code)]
 mod examples;
-#[allow(dead_code)]
-mod first;
 
 #[allow(dead_code)]
 mod utils;
