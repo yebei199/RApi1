@@ -19,7 +19,7 @@ fn setup_a_tangle(mut commands: Commands) {
             custom_size: Some(Vec2::new(100.0, 100.0)),
             ..default()
         },
-        Transform::from_xyz(0.0, 10.0, 0.0),
+        Transform::from_xyz(0.0, -110.0, 0.0),
         Moving,
     ));
 }
@@ -31,7 +31,9 @@ fn move_system(
     for mut transform in &mut query {
         // 每秒向右移动 50 个单位
         transform.translation.x +=
-            1500.0 * time.delta().as_secs_f32();
+            150.0 * time.delta().as_secs_f32();
+        transform.translation.y +=
+            150.0 * time.delta().as_secs_f32();
     }
 }
 
