@@ -1,14 +1,24 @@
 [workspace]
-members = ["crates/*", ]
+members = ["crates/*"]
 default-members = ["crates/my_bin_1"]
 resolver = "2"
 
 [workspace.package]
-rust-version = "1.90.0"
-version = "0.1.0"
+rust-version = "1.91.0"
+version = "0.1.1"
 edition = "2024"
+
+[profile.dev]
+opt-level = 1
+
+
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
 
 [workspace.dependencies]
 my_lib_1 = { path = "crates/my_lib_1" }
 pingora_proxy = { path = "crates/pingora_proxy" }
 audio_1 = { path = "crates/audio_1" }
+bevy_1 = { path = "crates/bevy_1" }
