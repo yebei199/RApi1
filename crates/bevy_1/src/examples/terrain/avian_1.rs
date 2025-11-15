@@ -1,13 +1,13 @@
+use avian3d::prelude::*;
 use bevy::prelude::*;
-
 pub fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_systems(Startup, setup)
+        .add_systems(Startup, setup_3d)
         .run();
 }
 
-fn setup(
+fn setup_3d(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -20,7 +20,7 @@ fn setup(
         GlobalTransform::default(),
     ));
 
-    // 光源
+    // 光源（只影响照明，不会显示）
     commands.spawn((
         PointLight {
             intensity: 1500.0,
@@ -31,21 +31,32 @@ fn setup(
         GlobalTransform::default(),
     ));
 
-    // 颜色
-    let color = Color::srgb(0.3, 0.8, 0.4);
-
-    // 网格 + 材质（注意：Mesh3d/MeshMaterial3d 分别是组件）
+    // 如果你想“看到光源”，额外放一个小球表示光源位置
     commands.spawn((
-        Mesh3d(meshes.add(Cuboid::new(50.0, 10.0, 50.0))),
+        Mesh3d(meshes.add(Cuboid::new(0.3, 0.3, 0.3))),
         MeshMaterial3d(materials.add(StandardMaterial {
-            base_color: color,
+            base_color: Color::srgb(1.0, 1.0, 0.0),
+            // emissive: Color::srgb(1.0, 1.0, 0.0), // 让它发光
             ..default()
         })),
-        Transform::from_xyz(0.0, 0.0, 0.0),
+        Transform::from_xyz(4.0, 8.0, 4.0),
         GlobalTransform::default(),
     ));
 
-    // 再来一个立方体看看位置与光照
+    // 静态地面：物理 + 渲染
+    commands.spawn((
+        Mesh3d(meshes.add(Cuboid::new(50.0, 1.0, 50.0))),
+        MeshMaterial3d(materials.add(StandardMaterial {
+            base_color: Color::srgb(0.3, 0.8, 0.3),
+            ..default()
+        })),
+        Transform::from_xyz(0.0, -0.5, 0.0),
+        GlobalTransform::default(),
+        RigidBody::Static,
+        Collider::cuboid(25.0, 0.5, 25.0),
+    ));
+
+    // 动态立方体：物理 + 渲染
     commands.spawn((
         Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
         MeshMaterial3d(materials.add(StandardMaterial {
@@ -54,5 +65,7 @@ fn setup(
         })),
         Transform::from_xyz(0.0, 3.0, 0.0),
         GlobalTransform::default(),
+        RigidBody::Dynamic,
+        Collider::cuboid(0.5, 0.5, 0.5),
     ));
 }
