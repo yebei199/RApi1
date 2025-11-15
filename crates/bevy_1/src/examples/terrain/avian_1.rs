@@ -1,8 +1,12 @@
 use avian3d::prelude::*;
 use bevy::prelude::*;
+
 pub fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins((
+            DefaultPlugins,
+            PhysicsPlugins::default(), // 👈 加上 Avian 的物理插件
+        ))
         .add_systems(Startup, setup_3d)
         .run();
 }
@@ -20,30 +24,18 @@ fn setup_3d(
         GlobalTransform::default(),
     ));
 
-    // 光源（只影响照明，不会显示）
+    // 光源
     commands.spawn((
         PointLight {
             intensity: 1500.0,
             shadows_enabled: true,
             ..default()
         },
-        Transform::from_xyz(4.0, 8.0, 4.0),
+        Transform::from_xyz(4.0, 18.0, 4.0),
         GlobalTransform::default(),
     ));
 
-    // 如果你想“看到光源”，额外放一个小球表示光源位置
-    commands.spawn((
-        Mesh3d(meshes.add(Cuboid::new(0.3, 0.3, 0.3))),
-        MeshMaterial3d(materials.add(StandardMaterial {
-            base_color: Color::srgb(1.0, 1.0, 0.0),
-            // emissive: Color::srgb(1.0, 1.0, 0.0), // 让它发光
-            ..default()
-        })),
-        Transform::from_xyz(4.0, 8.0, 4.0),
-        GlobalTransform::default(),
-    ));
-
-    // 静态地面：物理 + 渲染
+    // 地面：渲染 + 物理
     commands.spawn((
         Mesh3d(meshes.add(Cuboid::new(50.0, 1.0, 50.0))),
         MeshMaterial3d(materials.add(StandardMaterial {
@@ -56,7 +48,7 @@ fn setup_3d(
         Collider::cuboid(25.0, 0.5, 25.0),
     ));
 
-    // 动态立方体：物理 + 渲染
+    // 方块：渲染 + 物理
     commands.spawn((
         Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
         MeshMaterial3d(materials.add(StandardMaterial {
