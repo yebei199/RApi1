@@ -14,6 +14,5 @@ pub fn main() {
         // .add_plugins(hello::HelloPlugin)
         // .add_plugins(my_move::MyMovePlugin)
         .add_plugins(three_d_1::MutiMovePlugin)
-
         .run();
 }
