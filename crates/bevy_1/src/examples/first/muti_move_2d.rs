@@ -47,13 +47,12 @@ fn move_system(
     mut query: Query<(&mut Transform, &Velocity)>,
 ) {
     let mut rng = rand::rng();
+    let rang1 = rng.random_range(1.0..5.0)
+        * time.delta().as_secs_f32();
+
     for (mut transform, velocity) in &mut query {
-        transform.translation.x += velocity.x
-            * rng.random_range(1.0..10.0)
-            * time.delta().as_secs_f32();
-        transform.translation.y += velocity.y
-            * rng.random_range(1.0..10.0)
-            * time.delta().as_secs_f32();
+        transform.translation.x += velocity.x * rang1;
+        transform.translation.y += velocity.y * rang1;
     }
 }
 
@@ -63,7 +62,7 @@ impl Plugin for MutiMovePlugin {
         app.add_systems(
             Startup,
             (setup_2d, setup_entities),
-        );
-        app.add_systems(Update, move_system);
+        )
+        .add_systems(Update, move_system);
     }
 }
