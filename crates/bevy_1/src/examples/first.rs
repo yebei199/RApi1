@@ -3,6 +3,7 @@
 use bevy::prelude::*;
 use bevy::DefaultPlugins;
 mod bevy_vector_shapes;
+pub mod gamepad;
 mod hello;
 mod muti_move_2d;
 mod my_move;

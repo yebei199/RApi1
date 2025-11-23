@@ -8,5 +8,6 @@ fn main() {
     // examples::mesh_picking::main();
     // examples::volumetric_fog::main();
     // examples::terrain::avian_1::main();
-    examples::two_d::shapes::main();
+    // examples::two_d::shapes::main();
+    examples::first::gamepad::main();
 }
