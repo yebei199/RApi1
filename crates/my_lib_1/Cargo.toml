@@ -12,4 +12,6 @@ tokio = { version = "1.47", features = ["full"] } # 异步运行时
 serde = { version = "1.0", features = ["derive"] } # JSON 序列化/反序列化
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing = "0.1.41"
-tower-http = { version = "0.6.6", features = ["trace"] }        # 中间件、服务工具
+tower-http = { version = "0.6.6", features = ["trace"] }
+rand = "0.10.0-rc.5"
+zeroize = { version = "1.8.2", features = ["derive"] }
