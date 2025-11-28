@@ -1,5 +1,3 @@
-use examples::first;
-
 #[allow(dead_code)]
 mod examples;
 
@@ -9,5 +7,7 @@ mod utils;
 fn main() {
     // examples::mesh_picking::main();
     // examples::volumetric_fog::main();
-    first::main();
+    // examples::terrain::avian_1::main();
+    // examples::two_d::shapes::main();
+    examples::first::gamepad::main();
 }
