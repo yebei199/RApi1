@@ -4562,6 +4562,7 @@ dependencies = [
  "anyhow",
  "axum",
  "dotenvy",
+ "futures",
  "rand 0.10.0-rc.5",
  "reqwest 0.12.24",
  "scraper",

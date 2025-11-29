@@ -21,6 +21,7 @@ impl XCrawl {
         Ok(urls)
     }
 }
+
 struct ParseHtml {
     url: String,
     user_card_selector: Selector,
@@ -32,6 +33,28 @@ struct ParseHtml {
     meta_selector: Selector,
 }
 impl ParseHtml {
+    async fn muti_url_parse(
+        urls: Vec<String>,
+    ) -> anyhow::Result<Vec<Astroturfers>> {
+        use futures::stream::{self, StreamExt};
+
+        let mut results = Vec::new();
+        let parsers = urls.into_iter().map(ParseHtml::new);
+
+        let mut stream = stream::iter(parsers)
+            .map(|parser| async move {
+                parser.parse_html().await
+            })
+            .buffer_unordered(10);
+
+        while let Some(result) = stream.next().await {
+            let items = result?;
+            results.extend(items);
+        }
+
+        Ok(results)
+    }
+
     fn new(url: String) -> Self {
         Self {
             url,
@@ -161,6 +184,17 @@ impl ParseHtml {
         }
 
         Ok(astroturfers_list)
+    }
+}
+struct EndToDB;
+impl EndToDB {
+    async fn end() -> anyhow::Result<()> {
+        let urls = XCrawl::all_url()?;
+        // limit length for testing
+        let urls = urls.into_iter().take(3).collect();
+        let astroturfers =
+            ParseHtml::muti_url_parse(urls).await?;
+        Ok(())
     }
 }
 #[derive(Debug)]
