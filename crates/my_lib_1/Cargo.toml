@@ -8,8 +8,19 @@ path = "src/lib.rs"
 
 [dependencies]
 axum = "0.8.6"         # Web 框架
-tokio = { version = "1.47", features = ["full"] } # 异步运行时
+tokio = { version = "1.48.0", features = ["full"] } # 异步运行时
 serde = { version = "1.0", features = ["derive"] } # JSON 序列化/反序列化
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 tracing = "0.1.41"
 tower-http = { version = "0.6.6", features = ["trace"] }        # 中间件、服务工具
+reqwest = "0.12.24"
+scraper = "0.24.0"
+anyhow = "1.0"
+rand = "0.10.0-rc.5"
+sea-orm = { version = "2.0.0-rc.19", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
+futures = "0.3"
+dotenvy = "0.15.7"
+
+
+[dev-dependencies]
+sea-orm-migration = "2.0.0-rc.19"
