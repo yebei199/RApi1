@@ -17,4 +17,8 @@ reqwest = "0.12.24"
 scraper = "0.24.0"
 anyhow = "1.0"
 rand = "0.10.0-rc.5"
-sea-orm = "2.0.0-rc.19"
+sea-orm = { version = "2.0.0-rc.19", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
+
+[dev-dependencies]
+dotenvy = "0.15.7"
+sea-orm-migration = "2.0.0-rc.19"

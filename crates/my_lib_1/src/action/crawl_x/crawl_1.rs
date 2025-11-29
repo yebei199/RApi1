@@ -1,3 +1,4 @@
+//! crawl astroturfers from X_based_china
 use scraper::Selector;
 
 struct XCrawl;
