@@ -190,18 +190,35 @@ impl ParseHtml {
 struct EndToDB;
 impl EndToDB {
     async fn end() -> anyhow::Result<()> {
-        let urls = XCrawl::all_url()?;
-        // limit length for testing
-        // let urls = urls.into_iter().take(1).collect();
-        let astroturfers =
-            ParseHtml::muti_url_parse(urls).await?;
-
         dotenvy::dotenv().ok();
-        let database_url = std::env::var("PG_DB")
-            .expect("PG_DB must be set");
-        let db = sea_orm::Database::connect(&database_url)
-            .await?;
-        super::to_db::save_to_db(&db, astroturfers).await?;
+        let database_url = std::env::var("PG_DB").expect("PG_DB must be set");
+        let db = sea_orm::Database::connect(&database_url).await?;
+
+        let urls = XCrawl::all_url()?;
+
+        use futures::stream::{self, StreamExt};
+
+        // Create a stream that processes pages concurrently
+        let mut stream = stream::iter(urls)
+            .map(|url| {
+                let parser = ParseHtml::new(url);
+                async move { parser.parse_html().await }
+            })
+            .buffer_unordered(5); // Adjust concurrency limit as needed
+
+        while let Some(result) = stream.next().await {
+            match result {
+                Ok(models) => {
+                    if !models.is_empty() {
+                        println!("Inserting batch of {} records...", models.len());
+                        super::to_db::save_to_db(&db, models).await?;
+                    }
+                }
+                Err(e) => {
+                    eprintln!("Failed to parse page: {:?}", e);
+                }
+            }
+        }
         Ok(())
     }
 }
