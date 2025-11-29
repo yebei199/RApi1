@@ -24,6 +24,30 @@ pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
 
+pub async fn save_to_db(db: &DatabaseConnection, models: Vec<Model>) -> anyhow::Result<()> {
+    if models.is_empty() {
+        return Ok(());
+    }
+    let active_models: Vec<ActiveModel> = models.into_iter().map(Into::into).collect();
+
+    Entity::insert_many(active_models)
+        .on_conflict(
+            sea_orm::sea_query::OnConflict::column(Column::UserId)
+                .update_columns([
+                    Column::Name,
+                    Column::Handle,
+                    Column::ProfileUrl,
+                    Column::Avatar,
+                    Column::RegisterTime,
+                    Column::ChangedNameCount,
+                ])
+                .to_owned(),
+        )
+        .exec(db)
+        .await?;
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

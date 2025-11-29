@@ -1,4 +1,5 @@
 //! crawl astroturfers from X_based_china
+use super::to_db::Model;
 use scraper::Selector;
 
 struct XCrawl;
@@ -35,7 +36,7 @@ struct ParseHtml {
 impl ParseHtml {
     async fn muti_url_parse(
         urls: Vec<String>,
-    ) -> anyhow::Result<Vec<Astroturfers>> {
+    ) -> anyhow::Result<Vec<Model>> {
         use futures::stream::{self, StreamExt};
 
         let mut results = Vec::new();
@@ -86,7 +87,7 @@ impl ParseHtml {
     }
     async fn parse_html(
         &self,
-    ) -> anyhow::Result<Vec<Astroturfers>> {
+    ) -> anyhow::Result<Vec<Model>> {
         let client = reqwest::Client::new();
         let res = client.get(&self.url).send().await?;
         let doc = scraper::Html::parse_document(
@@ -170,10 +171,10 @@ impl ParseHtml {
                 }
             }
 
-            let astroturfers = Astroturfers {
+            let astroturfers = Model {
                 name,
                 handle,
-                id,
+                user_id: id,
                 profile_url,
                 avatar,
                 register_time,
@@ -191,21 +192,18 @@ impl EndToDB {
     async fn end() -> anyhow::Result<()> {
         let urls = XCrawl::all_url()?;
         // limit length for testing
-        let urls = urls.into_iter().take(3).collect();
+        // let urls = urls.into_iter().take(1).collect();
         let astroturfers =
             ParseHtml::muti_url_parse(urls).await?;
+
+        dotenvy::dotenv().ok();
+        let database_url = std::env::var("PG_DB")
+            .expect("PG_DB must be set");
+        let db = sea_orm::Database::connect(&database_url)
+            .await?;
+        super::to_db::save_to_db(&db, astroturfers).await?;
         Ok(())
     }
-}
-#[derive(Debug)]
-struct Astroturfers {
-    pub name: String,
-    pub handle: String,
-    pub id: String,
-    pub profile_url: String,
-    pub avatar: String,
-    pub register_time: String,
-    pub changed_name_count: u32,
 }
 
 #[cfg(test)]
@@ -213,6 +211,10 @@ mod test {
     use super::*;
     use rand::prelude::*;
     use scraper::Html;
+    #[tokio::test]
+    async fn end() -> anyhow::Result<()> {
+        EndToDB::end().await
+    }
 
     #[tokio::test]
     async fn test_1() {
