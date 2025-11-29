@@ -162,6 +162,7 @@ impl ParseHtml {
         Ok(astroturfers_list)
     }
 }
+#[derive(Debug)]
 struct Astroturfers {
     pub name: String,
     pub handle: String,
@@ -188,16 +189,7 @@ mod test {
         let parse = ParseHtml::new(url);
         let end = parse.parse_html().await.unwrap();
         for astroturfer in end {
-            println!(
-                "{} | {} | {} | {} | {} | {} | {}",
-                astroturfer.name,
-                astroturfer.handle,
-                astroturfer.id,
-                astroturfer.profile_url,
-                astroturfer.avatar,
-                astroturfer.register_time,
-                astroturfer.changed_name_count
-            );
+            println!("{:?}\n", astroturfer);
         }
     }
     #[test]
