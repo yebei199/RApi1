@@ -4116,6 +4116,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "axum",
+ "rand 0.10.0-rc.5",
  "reqwest 0.12.24",
  "scraper",
  "serde",

@@ -16,3 +16,4 @@ tower-http = { version = "0.6.6", features = ["trace"] }        # 中间件、�
 reqwest = "0.12.24"
 scraper = "0.24.0"
 anyhow = "1.0"
+rand = "0.10.0-rc.5"
