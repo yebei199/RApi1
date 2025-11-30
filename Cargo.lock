@@ -2747,6 +2747,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "dioxus_1"
+version = "0.1.1"
+
+[[package]]
 name = "dispatch"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
