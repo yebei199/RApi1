@@ -4,4 +4,14 @@ rust-version.workspace = true
 version.workspace = true
 edition.workspace = true
 
+[[bin]]
+name = "dioxus_1"
+path = "src/main.rs"
+doc = false
+
+
 [dependencies]
+dioxus = { version = "0.7.1", features = [] }
+anyhow = "1.0.100"
+#blitz = { git = "https://github.com/DioxusLabs/blitz" }
+
